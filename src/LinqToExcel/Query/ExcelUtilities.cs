@@ -11,6 +11,7 @@ namespace LinqToExcel.Query
 {
     public static class ExcelUtilities
     {
+        static private string OLEDBVERSION = "12.0";
         internal static string GetConnectionString(ExcelQueryArgs args)
         {
             var connString = "";
@@ -20,30 +21,38 @@ namespace LinqToExcel.Query
                 fileNameLower.EndsWith("xlsm"))
             {
                 connString = string.Format(
-                    @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};OLE DB Services={1:d};Extended Properties=""Excel 12.0 Xml;HDR=YES;IMEX=1""",
+                    @"Provider=Microsoft.ACE.OLEDB.{0};Data Source={1};OLE DB Services={2:d};Extended Properties=""Excel {3} Xml;HDR=YES;IMEX=1""",
+                    OLEDBVERSION,
                     args.FileName,
-                    args.OleDbServices);
+                    args.OleDbServices,
+                    OLEDBVERSION);
             }
             else if (fileNameLower.EndsWith("xlsb"))
             {
                 connString = string.Format(
-                    @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};OLE DB Services={1:d};Extended Properties=""Excel 12.0;HDR=YES;IMEX=1""",
+                    @"Provider=Microsoft.ACE.OLEDB.{0};Data Source={1};OLE DB Services={2:d};Extended Properties=""Excel {3};HDR=YES;IMEX=1""",
+                    OLEDBVERSION,
                     args.FileName,
-                    args.OleDbServices);
+                    args.OleDbServices,
+                    OLEDBVERSION);
             }
             else if (fileNameLower.EndsWith("csv"))
             {
                 connString = string.Format(
-                    @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};OLE DB Services={1:d};Extended Properties=""text;Excel 12.0;HDR=YES;IMEX=1""",
+                    @"Provider=Microsoft.ACE.OLEDB.{0};Data Source={1};OLE DB Services={2:d};Extended Properties=""text;Excel {3};HDR=YES;IMEX=1""",
+                    OLEDBVERSION,
                     Path.GetDirectoryName(args.FileName),
-                    args.OleDbServices);                
+                    args.OleDbServices,
+                    OLEDBVERSION);                
             }
             else
             {
                 connString = string.Format(
-                    @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};OLE DB Services={1:d};Extended Properties=""Excel 12.0;HDR=YES;IMEX=1""",
+                    @"Provider=Microsoft.ACE.OLEDB.{0};Data Source={1};OLE DB Services={2:d};Extended Properties=""Excel {3};HDR=YES;IMEX=1""",
+                    OLEDBVERSION,
                     args.FileName,
-                    args.OleDbServices);
+                    args.OleDbServices,
+                    OLEDBVERSION);
             }
 
             if (args.NoHeader)
